@@ -29,6 +29,7 @@ public class InquilinoService {
         if (inquilinoRepository.obtenerPorEmail(nuevoInquilino.getEmail()) != null){
             throw new Exception("El email ya esta registrado");
         }
+        nuevoInquilino.setBloqueado(false);
         return inquilinoRepository.guardar(nuevoInquilino);
     }
 
