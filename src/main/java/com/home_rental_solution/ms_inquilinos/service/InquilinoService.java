@@ -43,6 +43,7 @@ public class InquilinoService {
             throw new Exception("El email ya esta registrado por otro usuario");
         }
         inquilinoEditado.setIdInquilino(idInquilino);
+        inquilinoEditado.setBloqueado(inquilinoExistente.isBloqueado());
         return inquilinoRepository.actualizar(inquilinoEditado);
     }
 
@@ -70,15 +71,15 @@ public class InquilinoService {
         if (inquilino == null){
             throw new Exception("El inquilino con ID: " + idInquilino + " no existe");
         }
-        return inquilinoRepository.estaRegistrado(idInquilino);
+        return !inquilino.isBloqueado();
     }
 
     //PUT /inquilinos/id/bloquear
-    public String bloquear(int idInquilino) throws Exception{
+    public Inquilino bloquear(int idInquilino) throws Exception{
         Inquilino inquilino = inquilinoRepository.obtenerPorId(idInquilino);
         if (inquilino == null){
             throw new Exception("El inquilino con ID: " + idInquilino + " no existe");
         }
-        return "PENDIENTE";
+        return inquilinoRepository.bloquear(idInquilino);
     }
 }

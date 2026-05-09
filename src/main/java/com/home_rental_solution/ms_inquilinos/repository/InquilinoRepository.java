@@ -21,19 +21,22 @@ public class InquilinoRepository {
                 new ArrayList<>(Arrays.asList(
                         "Reserva en Santiago Centro",
                         "Reserva en Providencia"
-                ))
+                )),
+                false
         ));listaInquilinos.add(new Inquilino(
                 2,
                 "Camila Rojas",
                 "camila.rojas@email.com",
                 new ArrayList<>(Arrays.asList(
                         "Reserva en Maipu"
-                ))
+                )),
+                false
         ));listaInquilinos.add(new Inquilino(
                 3,
                 "Matias Silva",
                 "matias.silva@email.com",
-                new ArrayList<>()
+                new ArrayList<>(),
+                false
                 ));
     }
 
@@ -102,5 +105,14 @@ public class InquilinoRepository {
     //validar si esta registrado
     public boolean estaRegistrado(int idInquilino){
         return obtenerPorId(idInquilino) != null;
+    }
+
+    //bloquear a un inquilino
+    public Inquilino bloquear(int idInquilino){
+        Inquilino inquilino = obtenerPorId(idInquilino);
+        if (inquilino != null){
+            inquilino.setBloqueado(true);
+        }
+        return inquilino;
     }
 }

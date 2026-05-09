@@ -26,4 +26,6 @@ public class Inquilino {
 
     @NotNull(message = "El historial de reservas no puede ser nulo")
     private List<String> historialReservas;
+
+    private boolean bloqueado;
 }
