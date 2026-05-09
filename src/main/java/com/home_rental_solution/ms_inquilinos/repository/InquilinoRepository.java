@@ -81,5 +81,26 @@ public class InquilinoRepository {
 
     //***EXTRAS***
     //buscar por email
+    public Inquilino obtenerPorEmail(String email){
+        for (Inquilino inquilino : listaInquilinos){
+            if (inquilino.getEmail().equalsIgnoreCase(email)){
+                return inquilino;
+            }
+        }
+        return null;
+    }
 
+    // obtener historial
+    public List<String> obtenerHistorial(int idInquilino){
+        Inquilino inquilino = obtenerPorId(idInquilino);
+        if (inquilino != null){
+            return inquilino.getHistorialReservas();
+        }
+        return null;
+    }
+
+    //validar si esta registrado
+    public boolean estaRegistrado(int idInquilino){
+        return obtenerPorId(idInquilino) != null;
+    }
 }
