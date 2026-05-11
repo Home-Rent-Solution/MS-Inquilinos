@@ -35,9 +35,10 @@ public class Inquilino {
 
     @ElementCollection
     @CollectionTable(name = "inquilino_historial_reservas", joinColumns = @JoinColumn(name = "id_inquilino"))
+    @Size(max = 200, message = "La reserva no puede superar los 200 caracteres")
     @Column(name = "reserva", nullable = false, length = 200)
     private List<String> historialReservas = new ArrayList<>();
 
     @Column(nullable = false)
-    private boolean bloqueado;
+    private boolean bloqueado = false;
 }
