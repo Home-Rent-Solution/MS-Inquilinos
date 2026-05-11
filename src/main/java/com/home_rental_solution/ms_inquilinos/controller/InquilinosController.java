@@ -56,7 +56,11 @@ public class InquilinosController {
             Inquilino inquilinoActualizado = inquilinoService.editar(idInquilino, inquilinoEditado);
             return ResponseEntity.ok(inquilinoActualizado);
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            String msg = e.getMessage();
+            if (msg != null && msg.contains("email")){
+                return ResponseEntity.badRequest().body(msg);
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         }
     }
 
