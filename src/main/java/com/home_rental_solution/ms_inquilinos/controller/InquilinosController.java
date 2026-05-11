@@ -3,7 +3,7 @@ package com.home_rental_solution.ms_inquilinos.controller;
 import com.home_rental_solution.ms_inquilinos.model.Inquilino;
 import com.home_rental_solution.ms_inquilinos.service.InquilinoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -16,10 +16,10 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1/inquilinos")
+@RequiredArgsConstructor
 public class InquilinosController {
 
-    @Autowired
-    private InquilinoService inquilinoService;
+    private final InquilinoService inquilinoService;
 
     //***CRUD***
     //GET /inquilinos
@@ -54,7 +54,7 @@ public class InquilinosController {
     public ResponseEntity<?> putInquilino (@PathVariable int idInquilino, @Valid @RequestBody Inquilino inquilinoEditado){
         try{
             Inquilino inquilinoActualizado = inquilinoService.editar(idInquilino, inquilinoEditado);
-            return ResponseEntity.ok((inquilinoActualizado));
+            return ResponseEntity.ok(inquilinoActualizado);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
