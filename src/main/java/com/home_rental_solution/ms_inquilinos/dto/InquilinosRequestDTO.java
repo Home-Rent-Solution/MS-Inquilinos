@@ -1,6 +1,5 @@
 package com.home_rental_solution.ms_inquilinos.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,7 +22,7 @@ public class InquilinosRequestDTO {
 
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "Debe ingresar un email valido")
-    @Column(nullable = false, unique = true, length = 150)
+    @Size(max = 150, message = "El email no puede superar los 150 caracteres")
     private String email;
 
 }
