@@ -1,18 +1,15 @@
 package com.home_rental_solution.ms_inquilinos.controller;
 
-import com.home_rental_solution.ms_inquilinos.model.Inquilino;
+import com.home_rental_solution.ms_inquilinos.dto.InquilinosRequestDTO;
+import com.home_rental_solution.ms_inquilinos.dto.InquilinosResponseDTO;
 import com.home_rental_solution.ms_inquilinos.service.InquilinoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1/inquilinos")
@@ -24,98 +21,52 @@ public class InquilinosController {
     //***CRUD***
     //GET /inquilinos
     @GetMapping
-    public ResponseEntity<List<Inquilino>> getInquilinos(){
+    public ResponseEntity<List<InquilinosResponseDTO>> getInquilinos(){
         return ResponseEntity.ok(inquilinoService.mostrarInquilinos());
     }
 
     //GET /inquilinos/id
     @GetMapping("{idInquilino}")
-    public ResponseEntity<?> getPorId(@PathVariable int idInquilino){
-        Inquilino inquilino = inquilinoService.mostrarPorId(idInquilino);
-        if (inquilino == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El inquilino con ID: " + idInquilino + " no existe");
-        }
-        return ResponseEntity.ok(inquilino);
+    public ResponseEntity<InquilinosResponseDTO> getPorId(@PathVariable int idInquilino){
+        return ResponseEntity.ok(inquilinoService.mostrarPorId(idInquilino));
     }
 
     //POST /inquilinos
     @PostMapping
-    public ResponseEntity<?> postInquilino(@Valid @RequestBody Inquilino nuevoInquilino){
-        try{
-            Inquilino inquilinoGuardado = inquilinoService.save(nuevoInquilino);
-            return ResponseEntity.status(HttpStatus.CREATED).body(inquilinoGuardado);
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<InquilinosResponseDTO> postInquilino(@Valid @RequestBody InquilinosRequestDTO dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(inquilinoService.save(dto));
         }
-    }
 
     //PUT /inquilinos/id
     @PutMapping("{idInquilino}")
-    public ResponseEntity<?> putInquilino (@PathVariable int idInquilino, @Valid @RequestBody Inquilino inquilinoEditado){
-        try{
-            Inquilino inquilinoActualizado = inquilinoService.editar(idInquilino, inquilinoEditado);
-            return ResponseEntity.ok(inquilinoActualizado);
-        } catch (Exception e){
-            String msg = e.getMessage();
-            if (msg != null && msg.contains("email")){
-                return ResponseEntity.badRequest().body(msg);
-            }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+    public ResponseEntity<InquilinosResponseDTO> putInquilino (@PathVariable int idInquilino, @Valid @RequestBody
+    InquilinosRequestDTO dto){
+        return ResponseEntity.ok(inquilinoService.editar(idInquilino, dto));
         }
-    }
 
     //DELETE /inquilinos/id
     @DeleteMapping("{idInquilino}")
-    public ResponseEntity<?> deleteInquilino(@PathVariable int idInquilino){
-        try{
-            inquilinoService.borrar(idInquilino);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Void> deleteInquilino(@PathVariable int idInquilino){
+        inquilinoService.borrar(idInquilino);
+        return ResponseEntity.noContent().build();
     }
 
     //***EXTRAS***
     //GET /inquilinos/id/historial
     @GetMapping("{idInquilino}/historial")
-    public ResponseEntity<?> getHistorial(@PathVariable int idInquilino){
-        try{
-            return ResponseEntity.ok(inquilinoService.mostrarHistorial(idInquilino));
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<List<String>> getHistorial(@PathVariable int idInquilino){
+        return ResponseEntity.ok(inquilinoService.mostrarHistorial(idInquilino));
         }
-    }
 
     //GET /inquilinos/id/validar
     @GetMapping("{idInquilino}/validar")
-    public ResponseEntity<?> validar(@PathVariable int idInquilino){
-        try{
-            boolean habilitado = inquilinoService.validar(idInquilino);
-            return ResponseEntity.ok(habilitado);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<Boolean> validar(@PathVariable int idInquilino){
+        return ResponseEntity.ok(inquilinoService.validar(idInquilino));
         }
-    }
 
     //PUT /inquilinos/id/bloquear
     @PutMapping("{idInquilino}/bloquear")
-    public ResponseEntity<?> bloquear(@PathVariable int idInquilino){
-        try{
-            Inquilino inquilino = inquilinoService.bloquear(idInquilino);
-            return ResponseEntity.ok(inquilino);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<InquilinosResponseDTO> bloquear(@PathVariable int idInquilino){
+        return ResponseEntity.ok(inquilinoService.bloquear(idInquilino));
         }
     }
-
-    //Manejo de errores de validacion
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> manejarErroresValidacion(MethodArgumentNotValidException ex){
-        Map<String, String> errores = new HashMap<>();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()){
-            errores.put(error.getField(), error.getDefaultMessage());
-        }
-        return errores;
-    }
-}

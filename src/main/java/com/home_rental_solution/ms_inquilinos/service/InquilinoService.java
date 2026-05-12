@@ -76,7 +76,7 @@ public class InquilinoService {
     }
 
     //DELETE /inquilinos/id
-    public void borrar(int idInquilino) throws Exception{
+    public void borrar(int idInquilino) {
         if (!inquilinoRepository.existsById(idInquilino)){
             throw new RuntimeException("El inquilino con ID: " + idInquilino + " no existe");
         }
