@@ -17,7 +17,7 @@ public class Inquilino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idInquilino;
+    private Long idInquilino;
 
     @Column(nullable = false, length = 120)
     private String nombre;

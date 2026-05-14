@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface InquilinoRepository extends JpaRepository<Inquilino, Integer> {
+public interface InquilinoRepository extends JpaRepository<Inquilino, Long> {
 
     //***EXTRAS***
     //buscar por email
@@ -21,7 +21,7 @@ public interface InquilinoRepository extends JpaRepository<Inquilino, Integer> {
     boolean existsByEmailIgnoreCase(String email);
 
     //validar si esta puede arrendar
-    boolean existsByIdInquilinoAndBloqueadoFalse(Integer idInquilino);
+    boolean existsByIdInquilinoAndBloqueadoFalse(Long idInquilino);
 
     //Listar por estado de bloqueo
     @Query("SELECT i FROM Inquilino i WHERE i.bloqueado = false ORDER BY i.nombre")

@@ -68,7 +68,7 @@ public class InquilinoService {
     }
 
     //GET /inquilinos/id
-    public InquilinosResponseDTO mostrarPorId(int idInquilino){
+    public InquilinosResponseDTO mostrarPorId(Long idInquilino){
         Inquilino inquilino = inquilinoRepository.findById(idInquilino).orElseThrow(() -> new RuntimeException("El " +
                 "inquilino con ID: " + idInquilino + " no existe"));
         return mapToDTO(inquilino);
@@ -84,7 +84,7 @@ public class InquilinoService {
     }
 
     //PUT /inquilino/id
-    public InquilinosResponseDTO editar(int idInquilino, InquilinosRequestDTO dto){
+    public InquilinosResponseDTO editar(Long idInquilino, InquilinosRequestDTO dto){
         Inquilino inquilinoExistente = inquilinoRepository.findById(idInquilino).orElseThrow(() -> new RuntimeException(
                 "El inquilino con ID: " + idInquilino + " no existe"));
         Optional<Inquilino> inquilinoEmail = inquilinoRepository.findByEmailIgnoreCase(dto.getEmail());
@@ -97,7 +97,7 @@ public class InquilinoService {
     }
 
     //DELETE /inquilinos/id
-    public void borrar(int idInquilino) {
+    public void borrar(Long idInquilino) {
         if (!inquilinoRepository.existsById(idInquilino)){
             throw new RuntimeException("El inquilino con ID: " + idInquilino + " no existe");
         }
@@ -106,14 +106,14 @@ public class InquilinoService {
 
     //***EXTRAS***
     // GET /inquilinos/id/historial
-    public List<String> mostrarHistorial(int idInquilino){
+    public List<String> mostrarHistorial(Long idInquilino){
         Inquilino inquilino = inquilinoRepository.findById(idInquilino).orElseThrow(() -> new RuntimeException("El " +
                 "inquilino con ID: " + idInquilino + " no existe"));
         return inquilino.getHistorialReservas();
     }
 
     //GET /inquilinos/id/validar
-    public boolean validar(int idInquilino){
+    public boolean validar(Long idInquilino){
         if (!inquilinoRepository.existsById(idInquilino)){
             throw new RuntimeException("El inquilino con ID: " + idInquilino + " no existe");
         }
@@ -121,7 +121,7 @@ public class InquilinoService {
     }
 
     //PUT /inquilinos/id/bloquear
-    public InquilinosResponseDTO bloquear(int idInquilino){
+    public InquilinosResponseDTO bloquear(Long idInquilino){
         Inquilino inquilino = inquilinoRepository.findById(idInquilino).orElseThrow(() -> new RuntimeException("El" +
                 " inquilino con ID: " + idInquilino + " no existe"));
         inquilino.setBloqueado(true);

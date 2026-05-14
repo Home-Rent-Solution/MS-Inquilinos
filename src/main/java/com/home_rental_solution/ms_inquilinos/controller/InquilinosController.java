@@ -27,7 +27,7 @@ public class InquilinosController {
 
     //GET /inquilinos/id
     @GetMapping("{idInquilino}")
-    public ResponseEntity<InquilinosResponseDTO> getPorId(@PathVariable int idInquilino){
+    public ResponseEntity<InquilinosResponseDTO> getPorId(@PathVariable Long idInquilino){
         return ResponseEntity.ok(inquilinoService.mostrarPorId(idInquilino));
     }
 
@@ -39,14 +39,14 @@ public class InquilinosController {
 
     //PUT /inquilinos/id
     @PutMapping("{idInquilino}")
-    public ResponseEntity<InquilinosResponseDTO> putInquilino (@PathVariable int idInquilino, @Valid @RequestBody
+    public ResponseEntity<InquilinosResponseDTO> putInquilino (@PathVariable Long idInquilino, @Valid @RequestBody
     InquilinosRequestDTO dto){
         return ResponseEntity.ok(inquilinoService.editar(idInquilino, dto));
         }
 
     //DELETE /inquilinos/id
     @DeleteMapping("{idInquilino}")
-    public ResponseEntity<Void> deleteInquilino(@PathVariable int idInquilino){
+    public ResponseEntity<Void> deleteInquilino(@PathVariable Long idInquilino){
         inquilinoService.borrar(idInquilino);
         return ResponseEntity.noContent().build();
     }
@@ -54,19 +54,19 @@ public class InquilinosController {
     //***EXTRAS***
     //GET /inquilinos/id/historial
     @GetMapping("{idInquilino}/historial")
-    public ResponseEntity<List<String>> getHistorial(@PathVariable int idInquilino){
+    public ResponseEntity<List<String>> getHistorial(@PathVariable Long idInquilino){
         return ResponseEntity.ok(inquilinoService.mostrarHistorial(idInquilino));
         }
 
     //GET /inquilinos/id/validar
     @GetMapping("{idInquilino}/validar")
-    public ResponseEntity<Boolean> validar(@PathVariable int idInquilino){
+    public ResponseEntity<Boolean> validar(@PathVariable Long idInquilino){
         return ResponseEntity.ok(inquilinoService.validar(idInquilino));
         }
 
     //PUT /inquilinos/id/bloquear
     @PutMapping("{idInquilino}/bloquear")
-    public ResponseEntity<InquilinosResponseDTO> bloquear(@PathVariable int idInquilino){
+    public ResponseEntity<InquilinosResponseDTO> bloquear(@PathVariable Long idInquilino){
         return ResponseEntity.ok(inquilinoService.bloquear(idInquilino));
         }
     }

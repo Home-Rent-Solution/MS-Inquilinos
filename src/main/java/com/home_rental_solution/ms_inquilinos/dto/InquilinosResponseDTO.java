@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class InquilinosResponseDTO {
 
-    private Integer idInquilino;
+    private Long idInquilino;
     private String nombre;
     private String email;
     private List<String> historialReservas;
