@@ -51,7 +51,7 @@ public class InquilinosController {
         return ResponseEntity.noContent().build();
     }
 
-    //***EXTRAS***
+    //***EXTRAS****
     //GET /inquilinos/id/historial
     @GetMapping("{idInquilino}/historial")
     public ResponseEntity<List<String>> getHistorial(@PathVariable Long idInquilino){
