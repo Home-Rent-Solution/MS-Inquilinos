@@ -1,10 +1,14 @@
 package com.home_rental_solution.ms_inquilinos.service;
 
+import com.home_rental_solution.ms_inquilinos.client.PropiedadClient;
 import com.home_rental_solution.ms_inquilinos.dto.InquilinosRequestDTO;
 import com.home_rental_solution.ms_inquilinos.dto.InquilinosResponseDTO;
 import com.home_rental_solution.ms_inquilinos.model.Inquilino;
 import com.home_rental_solution.ms_inquilinos.repository.InquilinoRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,11 +16,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class InquilinoService {
 
     private final InquilinoRepository inquilinoRepository;
+
+    @Autowired
+    private final PropiedadClient propiedadClient;
+
+    //Validacion con feign
+    private void validarPropiedad(int idPropiedad){
+        try{
+            propiedadClient.obtenerPropiedad(idPropiedad);
+            log.info(">>> Propiedad {} validada correctamente (Feign Client)", idPropiedad);
+        } catch (FeignException.NotFound e){
+            throw new RuntimeException("La propiedad con ID: " + idPropiedad + " no existe");
+        } catch (FeignException e){
+            throw new RuntimeException("No se puede conectar con ms-propiedades");
+        }
+    }
+
 
     //Mapeo Entidad -> ResponseDTO
     private InquilinosResponseDTO mapToDTO(Inquilino inquilino){
