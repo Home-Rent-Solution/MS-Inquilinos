@@ -1,6 +1,7 @@
 package com.home_rental_solution.ms_inquilinos.service;
 
 import com.home_rental_solution.ms_inquilinos.client.PropiedadClient;
+import com.home_rental_solution.ms_inquilinos.client.ReservaClient;
 import com.home_rental_solution.ms_inquilinos.dto.InquilinosRequestDTO;
 import com.home_rental_solution.ms_inquilinos.dto.InquilinosResponseDTO;
 import com.home_rental_solution.ms_inquilinos.model.Inquilino;
@@ -26,8 +27,11 @@ public class InquilinoService {
     @Autowired
     private final PropiedadClient propiedadClient;
 
+    @Autowired
+    private final ReservaClient reservaClient;
+
     //Validacion con feign
-    private void validarPropiedad(int idPropiedad){
+    private void validarPropiedad(Long idPropiedad){
         try{
             propiedadClient.obtenerPropiedad(idPropiedad);
             log.info(">>> Propiedad {} validada correctamente (Feign Client)", idPropiedad);
@@ -38,6 +42,18 @@ public class InquilinoService {
         }
     }
 
+    //Historial con FEIGN ms-reservas
+    private List<Object> obtenerHistorialReservas(Long idInquilino){
+        try {
+            List<Object> historial = reservaClient.obtenerReservasPorInquilino(idInquilino);
+            log.info(">>> Historial del inquilino {} obtenido correctamente (FeignClient)", idInquilino);
+            return historial;
+        } catch (FeignException.NotFound e) {
+            throw new RuntimeException("No se encontraron reservas para el inquilino con ID: " + idInquilino);
+        } catch (FeignException e) {
+            throw new RuntimeException("No se puede conectar con ms-reservas: " + e.getMessage());
+        }
+    }
 
     //Mapeo Entidad -> ResponseDTO
     private InquilinosResponseDTO mapToDTO(Inquilino inquilino){
