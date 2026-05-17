@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "ms-propiedades", url = "${ms.propiedades.url")
+@FeignClient(name = "ms-propiedades", url = "${ms.propiedades.url}")
 public interface PropiedadClient {
 
     //validar si la propiedad existe y esta disponible
