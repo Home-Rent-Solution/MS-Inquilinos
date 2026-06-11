@@ -10,17 +10,31 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class InquilinosModelAssembler implements RepresentationModelAssembler<InquilinosResponseDTO, EntityModel<InquilinosResponseDTO>> {
+public class InquilinosModelAssembler implements RepresentationModelAssembler<InquilinosResponseDTO,
+        EntityModel<InquilinosResponseDTO>> {
 
     @Override
     public EntityModel<InquilinosResponseDTO> toModel (InquilinosResponseDTO dto){
 
         Long id = dto.getIdInquilino();
-        return EntityModel.of(dto,
-                linkTo(methodOn(InquilinosController.class).getPorId(id)).withSelfRel(),
-                linkTo(methodOn(InquilinosController.class).getInquilinos()).withRel("inquilinos"),
-                linkTo(methodOn(InquilinosController.class).getHistorial(id)).withRel("historial-reservas"),
-                linkTo(methodOn(InquilinosController.class).bloquear(id)).withRel("bloquear-inquilino")
-                );
+        return EntityModel.of(
+                dto,
+                linkTo(methodOn(InquilinosController
+                        .class)
+                        .getPorId(id))
+                        .withSelfRel(),
+                linkTo(methodOn(InquilinosController
+                        .class)
+                        .getInquilinos())
+                        .withRel("inquilinos"),
+                linkTo(methodOn(InquilinosController
+                        .class)
+                        .getHistorial(id))
+                        .withRel("historial-reservas"),
+                linkTo(methodOn(InquilinosController
+                        .class)
+                        .bloquear(id))
+                        .withRel("bloquear-inquilino")
+        );
     }
 }

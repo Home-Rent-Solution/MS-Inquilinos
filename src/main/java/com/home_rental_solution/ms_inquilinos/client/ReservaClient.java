@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "ms-reservas", url = "${ms.reservas.url}")
+@FeignClient(
+        name = "ms-reservas",
+        url = "${ms.reservas.url}"
+)
 public interface ReservaClient {
 
     // GET /api/v1/reservas/inquilino/{idInquilino}

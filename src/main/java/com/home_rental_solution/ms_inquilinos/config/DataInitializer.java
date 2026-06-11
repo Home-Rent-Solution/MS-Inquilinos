@@ -51,6 +51,9 @@ public class DataInitializer implements CommandLineRunner{
                 new ArrayList<>(),
                 true
         ));
-        log.info("DataInitializer: {} inquilinos insertados correctamente", inquilinoRepository.count());
+        log.info(
+                "DataInitializer: {} inquilinos insertados correctamente",
+                inquilinoRepository.count()
+        );
     }
 }

@@ -19,15 +19,29 @@ public class Inquilino {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idInquilino;
 
-    @Column(nullable = false, length = 120)
+    @Column(
+            nullable = false,
+            length = 120
+    )
     private String nombre;
 
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(
+            nullable = false,
+            unique = true,
+            length = 150
+    )
     private String email;
 
     @ElementCollection
-    @CollectionTable(name = "inquilino_historial_reservas", joinColumns = @JoinColumn(name = "id_inquilino"))
-    @Column(name = "reserva", nullable = false, length = 200)
+    @CollectionTable(
+            name = "inquilino_historial_reservas",
+            joinColumns = @JoinColumn(name = "id_inquilino")
+    )
+    @Column(
+            name = "reserva",
+            nullable = false,
+            length = 200
+    )
     private List<String> historialReservas = new ArrayList<>();
 
     @Column(nullable = false)

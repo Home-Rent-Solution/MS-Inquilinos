@@ -13,6 +13,7 @@ public class SwaggerConfig {
         return new OpenAPI().info(new Info()
                 .title("API INQUILINOS")
                 .version("1.0")
-                .description("Documentación de la API para la gestión de los Inquilinos"));
+                .description("Documentación de la API para la gestión de los Inquilinos")
+        );
     }
 }
