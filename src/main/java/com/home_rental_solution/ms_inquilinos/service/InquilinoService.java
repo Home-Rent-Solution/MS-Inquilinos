@@ -161,7 +161,7 @@ public class InquilinoService {
         Inquilino inquilino = inquilinoRepository
                 .findById(idInquilino)
                 .orElseThrow(() -> new RuntimeException("El inquilino con ID: " + idInquilino + " no existe"));
-        inquilino.setBloqueado(true);
+        inquilino.setBloqueado(!inquilino.isBloqueado());
         return mapToDTO(inquilinoRepository.save(inquilino));
     }
 }
