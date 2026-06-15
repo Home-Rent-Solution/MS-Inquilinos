@@ -1,4 +1,4 @@
-package com.home_rental_solution.ms_inquilinos;
+package com.home_rental_solution.ms_inquilinos.util;
 
 import com.home_rental_solution.ms_inquilinos.model.Inquilino;
 import com.home_rental_solution.ms_inquilinos.repository.InquilinoRepository;
