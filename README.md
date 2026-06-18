@@ -1,6 +1,4 @@
----
-
-### 4. 👤 `README.md` para **ms-inquilinos** (Puerto 8083)
+# 4. 👤 `README.md` para **ms-inquilinos** (Puerto 8083)
 
 ```markdown
 # 👤 HomeRentSolution - Microservicio de Inquilinos (ms-inquilinos)
