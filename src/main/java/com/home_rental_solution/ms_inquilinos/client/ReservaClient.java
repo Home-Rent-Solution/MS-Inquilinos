@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @FeignClient(
-        name = "ms-reservas",
-        url = "${ms.reservas.url}"
+        name = "ms-reservas"
 )
 public interface ReservaClient {
 
