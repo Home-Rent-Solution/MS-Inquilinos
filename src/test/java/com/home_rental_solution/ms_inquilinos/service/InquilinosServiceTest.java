@@ -181,6 +181,30 @@ public class InquilinosServiceTest {
     }
 
     @Test
+    public void testEditar_MismoEmailDelInquilino() {
+        Inquilino existente = new Inquilino(1L, "Lucas", "lucas@mail.com", new ArrayList<>(), false);
+        InquilinosRequestDTO nuevosDatos = new InquilinosRequestDTO("Lucas Actualizado", "lucas@mail.com");
+        when(inquilinoRepository.findById(1L)).thenReturn(Optional.of(existente));
+        when(inquilinoRepository.findByEmailIgnoreCase("lucas@mail.com")).thenReturn(Optional.of(existente));
+        when(inquilinoRepository.save(any(Inquilino.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        InquilinosResponseDTO resultado = inquilinoService.editar(1L, nuevosDatos);
+
+        assertEquals("Lucas Actualizado", resultado.getNombre());
+    }
+
+    @Test
+    public void testEditar_InquilinoNoExiste() {
+        InquilinosRequestDTO nuevosDatos = new InquilinosRequestDTO("Nombre", "correo@mail.com");
+        when(inquilinoRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> inquilinoService.editar(99L, nuevosDatos));
+
+        assertEquals("El inquilino con ID: 99 no existe", exception.getMessage());
+    }
+
+    @Test
     public void testBorrar_Success() {
         when(inquilinoRepository.existsById(1L)).thenReturn(true);
         assertDoesNotThrow(() -> inquilinoService.borrar(1L));
@@ -228,11 +252,31 @@ public class InquilinosServiceTest {
     }
 
     @Test
+    public void testMostrarHistorial_InquilinoNoExiste() {
+        when(inquilinoRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> inquilinoService.mostrarHistorial(99L));
+
+        assertEquals("El inquilino con ID: 99 no existe", exception.getMessage());
+    }
+
+    @Test
     public void testValidar_InquilinoActivo() {
         when(inquilinoRepository.existsById(1L)).thenReturn(true);
         when(inquilinoRepository.existsByIdInquilinoAndBloqueadoFalse(1L)).thenReturn(true);
         boolean resultado = inquilinoService.validar(1L);
         assertTrue(resultado);
+    }
+
+    @Test
+    public void testValidar_InquilinoNoExiste() {
+        when(inquilinoRepository.existsById(99L)).thenReturn(false);
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> inquilinoService.validar(99L));
+
+        assertEquals("El inquilino con ID: 99 no existe", exception.getMessage());
     }
 
     @Test
@@ -250,5 +294,15 @@ public class InquilinosServiceTest {
         // Al cambiar el estado de false, debería pasar a true (bloqueado)
         InquilinosResponseDTO resultado = inquilinoService.bloquear(1L);
         assertTrue(resultado.isBloqueado());
+    }
+
+    @Test
+    public void testBloquear_InquilinoNoExiste() {
+        when(inquilinoRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> inquilinoService.bloquear(99L));
+
+        assertEquals("El inquilino con ID: 99 no existe", exception.getMessage());
     }
 }
