@@ -1,10 +1,18 @@
-# CONFIGURACIÓN BASE (Común para todos)
+# CONFIGURACIÃ“N BASE (ComÃºn para todos)
 
 spring:
   application:
     name: ms-inquilinos
   profiles:
-    active: dev
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: ${FEIGN_CONNECT_TIMEOUT:3000}
+            readTimeout: ${FEIGN_READ_TIMEOUT:5000}
+            loggerLevel: basic
 
 server:
   port: 8083
@@ -36,7 +44,7 @@ spring:
       hibernate:
         format_sql: true
 
-# Documentación interactiva con Swagger UI
+# DocumentaciÃ³n interactiva con Swagger UI
 springdoc:
   api-docs:
     enabled: true
@@ -68,7 +76,7 @@ spring:
     password: ""
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  # Limpieza absoluta de tablas en cada ejecución de test
+  # Limpieza absoluta de tablas en cada ejecuciÃ³n de test
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: false
@@ -91,7 +99,7 @@ ms:
 
 ---
 
-# PERFIL DE PRODUCCIÓN (prod)
+# PERFIL DE PRODUCCIÃ“N (prod)
 spring:
   config:
     activate:
