@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface PropiedadClient {
 
     //validar si la propiedad existe y esta disponible
-    @GetMapping("/api/v1/propiedades/id")
-    Object obtenerPropiedad(@PathVariable Long id);
+    @GetMapping("/api/v1/propiedades/{id}")
+	Object obtenerPropiedad(@PathVariable("id") Long id);
 }
