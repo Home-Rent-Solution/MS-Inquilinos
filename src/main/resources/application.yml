@@ -68,17 +68,20 @@ spring:
   config:
     activate:
       on-profile: test
+  cloud:
+    discovery:
+      enabled: false
 
-  # Base de datos MySQL de pruebas
+  # Base de datos H2 en memoria para pruebas
   datasource:
-    url: jdbc:mysql://localhost:3306/db_inquilinos_test
-    username: root
-    password: ""
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:db_inquilinos_test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
-  # Limpieza absoluta de tablas en cada ejecuciÃ³n de test
+  # Limpieza absoluta de tablas en cada ejecucion de test
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false
     hibernate:
       ddl-auto: create-drop
@@ -88,6 +91,11 @@ springdoc:
   api-docs:
     enabled: false
   swagger-ui:
+    enabled: false
+
+# Evitar conexiones externas durante las pruebas
+eureka:
+  client:
     enabled: false
 
 # URL ficticia para simular llamadas Feign en ambiente de pruebas

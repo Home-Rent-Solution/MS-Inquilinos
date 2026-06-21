@@ -1,16 +1,14 @@
 package com.home_rental_solution.ms_inquilinos.service;
 
-import com.home_rental_solution.ms_inquilinos.client.PropiedadClient;
-import com.home_rental_solution.ms_inquilinos.client.ReservaClient;
 import com.home_rental_solution.ms_inquilinos.dto.InquilinosRequestDTO;
 import com.home_rental_solution.ms_inquilinos.dto.InquilinosResponseDTO;
 import com.home_rental_solution.ms_inquilinos.model.Inquilino;
 import com.home_rental_solution.ms_inquilinos.repository.InquilinoRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,21 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 public class InquilinosServiceTest {
 
-    @Autowired
+    @InjectMocks
     private InquilinoService inquilinoService;
 
-    @MockitoBean
+    @Mock
     private InquilinoRepository inquilinoRepository;
-
-    @MockitoBean
-    private PropiedadClient propiedadClient;
-
-    @MockitoBean
-    private ReservaClient reservaClient;
 
     // TESTS CRUD
 
